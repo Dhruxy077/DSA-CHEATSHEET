@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class Binary_Tree {
@@ -87,6 +89,29 @@ public class Binary_Tree {
         inOrder(root.right);
     }
 
+//    Level order traversal in the binary tree using queue
+    public void levelOrderTraversal(){
+        System.out.println("-----------Level-order Traversal in the binary tree-------------");
+        if(root==null){
+            return;
+        }
+        System.out.print("Level order Traversal: ");
+        Queue<node> queue=new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            node temp=queue.poll();
+            System.out.print(temp.data+" ");
+
+            if(temp.left!=null){
+                queue.offer(temp.left);
+            }
+            if(temp.right!=null){
+                queue.offer(temp.right);
+            }
+        }
+
+        System.out.println("\n-----------------------------------------------------------------");
+    }
 
     public void createBinaryTree(){
         node first = new node(1);
@@ -111,5 +136,6 @@ public class Binary_Tree {
         bt.createBinaryTree();
         bt.preOrderTraversal();
         bt.inOrderTraversal();
+        bt.levelOrderTraversal();
     }
 }
