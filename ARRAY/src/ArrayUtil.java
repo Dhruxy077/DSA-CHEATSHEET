@@ -65,7 +65,7 @@ public class ArrayUtil {
     public void arrayDemo(){
         int[] arr={1, 3, 6, 8, 2, 4, 7 };
         printArray(arr);
-//        findMinimum(arr);
+        findMinimum(arr);
         reverse(arr);
 
     }
