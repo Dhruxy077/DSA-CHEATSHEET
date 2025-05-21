@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public class ArrayUtil {
@@ -60,6 +62,68 @@ public class ArrayUtil {
         Arrays.stream(reversed).forEach(e->System.out.print(e+" "));
 
     }
+
+//    LeetCode Question.1 Two Sums based on Arrays
+    public static int[] twoSum(int[] numbers,int target){
+        Map<Integer,Integer> map=new HashMap<>();
+
+        for(int i=0;i<numbers.length;i++){
+            if(!map.containsKey(target-numbers[i])){
+                map.put(numbers[i],i);
+            }else{
+
+                return new int[]{i,map.get(target-numbers[i])};
+            }
+        }
+
+        return new int[];
+    }
+
+//
+    public static int[] twoSumII(int[] arr, int target) {
+        // Sorting and Two Pointer
+//        If the input array is unsorted
+        Arrays.sort(arr); // 0 2 6 7 10 11
+        int left = 0;
+        int right = arr.length - 1;
+        int[] result = new int[2];
+        while (left < right) {
+            int sum = arr[left] + arr[right];
+            if (sum == target) {
+                result[0] = arr[left];
+                result[1] = arr[right];
+                return result;
+            } else if (sum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return new int[0];
+    }
+
+
+    public static int[] sortedSquares(int[] arr) {
+        // Two pointer technique
+        int n = arr.length;
+        int i = 0;
+        int j = n - 1;
+        int[] result = new int[n];
+
+        // {-4, -1, 0, 3} -> {0, 1, 9, 16}
+
+        for (int k = n - 1; k >= 0; k--) {
+            if (Math.abs(arr[i]) > Math.abs(arr[j])) {
+                result[k] = arr[i] * arr[i];
+                i++;
+            } else {
+                result[k] = arr[j] * arr[j];
+                j--;
+            }
+        }
+        return result;
+    }
+
 
 //    Created a Array demo
     public void arrayDemo(){
