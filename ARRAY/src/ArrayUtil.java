@@ -76,7 +76,7 @@ public class ArrayUtil {
             }
         }
 
-        return new int[];
+        return new int[]{0,0};
     }
 
 //
