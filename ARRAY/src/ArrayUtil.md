@@ -1,213 +1,232 @@
-# ArrayUtil - A Complete Guide to Array Operations in Java
+# 🧰 Java Array Utilities Toolkit 🛠️
 
-Arrays are one of the most fundamental data structures in computer science. This comprehensive guide examines the `ArrayUtil` class, which demonstrates various common array operations, both using traditional approaches and modern Java features like the Stream API.
+Welcome to the `ArrayUtil` toolkit! This Java class is packed with handy methods for performing common operations on integer arrays. Whether you need to print arrays in style, find the smallest element, reverse an array, or even tackle some popular LeetCode problems, this toolkit has got your back! 😉
 
-## Understanding the ArrayUtil Class Structure
+---
 
-The `ArrayUtil` class serves as a collection of methods that perform different operations on arrays. Let's break down each component:
+## 🌟 Features & Methods
 
-## 1. Array Printing Techniques
+Let's take a tour of the awesome functionalities provided by `ArrayUtil.java`:
 
-### Method: `printArray(int[] arr)`
+### 1. `printArray(int[] arr)` 📜
+This method showcases three different ways to print the elements of an integer array. Variety is the spice of life, right? ✨
 
-This method demonstrates three different ways to print the contents of an array:
+* **Traditional `for` loop**: The good old reliable way.
+* **Stream API**: For a more modern, functional approach (`Arrays.stream().forEach()`).
+* **`Arrays.toString()`**: The simplest way to get a string representation of an array.
 
-#### 1.1 Using a Traditional For Loop:
+**How it looks:**
 ```java
-System.out.print("Printing array using for Loop: ");
-int n = arr.length;
-for (int i = 0; i < n; i++) {
-    System.out.print(arr[i] + "  ");
-}
-```
-
-This is the classic approach to array traversal. We iterate from index 0 to `length-1`, accessing each element by its index. This approach has been used since the earliest days of programming and provides complete control over how elements are accessed and processed.
-
-**Time Complexity**: O(n) - We process each element exactly once
-**Space Complexity**: O(1) - We use constant extra space
-
-#### 1.2 Using Java's Stream API:
-```java
-System.out.print("\nPrinting array using stream API: ");
-Arrays.stream(arr).forEach(e -> System.out.print(e + " "));
-```
-
-This modern approach converts the array into a stream of elements and then applies operations to each element in the stream. The `forEach` method takes a lambda expression that defines what to do with each element. This functional programming approach is more concise and can be more readable for complex operations.
-
-**Time Complexity**: O(n) - Still processing each element once
-**Space Complexity**: O(1) - Though the stream is created, it doesn't store elements separately
-
-#### 1.3 Using Arrays.toString() Method:
-```java
-System.out.println("\nPrinting array using toString() method : " + Arrays.toString(arr));
-```
-
-This is the simplest and most convenient method for debugging or quick printing. The `Arrays.toString()` method automatically formats the array elements inside square brackets with commas separating each element.
-
-**Time Complexity**: O(n) - Internally iterates through all elements
-**Space Complexity**: O(n) - Creates a new String containing all elements
-
-## 2. Finding the Minimum Element
-
-### Method: `findMinimum(int[] arr)`
-
-This method shows two ways to find the minimum value in an array:
-
-#### 2.1 Using a For Loop:
-```java
-int min = arr[0];
-for (int i = 1; i < arr.length; i++) {
-    if (arr[i] < min) {
-        min = arr[i];
+public void printArray(int[] arr){
+//        Printing array using for loop Method
+    System.out.print("Printing array using for Loop: ");
+    int n=arr.length;
+    for (int i=0;i<n;i++){
+        System.out.print(arr[i]+"  ");
     }
+
+//        Using stream API
+    System.out.print("\nPrinting array using stream API: ");
+    Arrays.stream(arr).forEach(e-> System.out.print(e+" "));
+
+//        Using toString() method
+    System.out.println("\nPrinting array using toString() method : "+Arrays.toString(arr));
 }
 ```
-
-This approach initializes `min` with the first element and then compares each subsequent element with the current minimum. If a smaller element is found, it becomes the new minimum.
-
-**Time Complexity**: O(n) - We process each element once
-**Space Complexity**: O(1) - We only need one variable to track the minimum
-
-#### 2.2 Using Stream API:
-```java
-Arrays.stream(arr).min().getAsInt()
+**Example Output:**
+```
+Printing array using for Loop: 1  3  6  8  2  4  7
+Printing array using stream API: 1 3 6 8 2 4 7
+Printing array using toString() method : [1, 3, 6, 8, 2, 4, 7]
 ```
 
-This functional approach converts the array to a stream, calls the `min()` method to find the smallest element (which returns an `OptionalInt`), and then extracts the value using `getAsInt()`.
+---
 
-**Time Complexity**: O(n) - Still requires checking each element
-**Space Complexity**: O(1) - Doesn't require additional data structures
+### 2. `findMinimum(int[] arr)` 📉
+Need to find the smallest treasure 💎 in your array? This method does just that!
 
-#### 2.3 Error Handling:
-```java
-if (arr == null || arr.length == 0) {
-    throw new IllegalArgumentException("Invalid input");
-}
-```
-
-This defensive programming approach ensures the method doesn't crash when given an empty or null array. Instead, it throws a meaningful exception with a clear error message.
-
-## 3. Array Reversal Techniques
-
-### Method: `reverse(int[] arr)`
-
-This method demonstrates two ways to reverse an array:
-
-#### 3.1 In-place Reversal Using Two Pointers:
-```java
-int i = 0, j = arr.length - 1;
-while (i <= j) {
-    int temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-    i++;
-    j--;
-}
-```
-
-This classic algorithm uses two pointers - one starting from the beginning and one from the end. As the pointers move toward each other, the elements at those positions are swapped. This continues until the pointers meet or cross.
-
-**Time Complexity**: O(n/2) which simplifies to O(n) - We process half the array
-**Space Complexity**: O(1) - We modify the array in-place with only a few variables
-
-#### 3.2 Using IntStream for Functional Reversal:
-```java
-int[] reversed = IntStream.rangeClosed(1, arr.length)
-        .map(e -> arr[arr.length - e]).toArray();
-```
-
-This approach uses Java's functional programming features to create a new reversed array. It:
-1. Creates a stream of integers from 1 to the array length
-2. Maps each number `e` to the value at index `(length - e)` in the original array
-3. Collects the results into a new array
-
-**Time Complexity**: O(n) - Still processing each element once
-**Space Complexity**: O(n) - Creates a new array of the same size
-
-## 4. Two Sum Problem Solutions
-
-### Method 1: `twoSum(int[] numbers, int target)`
-
-This method finds the indices of two numbers in an array that add up to a target value.
+* **Input**: An integer array `arr`.
+* **Action**:
+   * Throws an `IllegalArgumentException` if the array is `null` or empty (safety first! 👷).
+   * Demonstrates finding the minimum using:
+      1.  A classic `for` loop.
+      2.  The sleek Stream API (`Arrays.stream(arr).min().getAsInt()`).
+* **Output**: Prints the minimum element found by both methods.
 
 ```java
-public static int[] twoSum(int[] numbers, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
+public void findMinimum(int[] arr){
+    if (arr == null || arr.length == 0) {
+        throw new IllegalArgumentException("Invalid input 🚫: Array cannot be null or empty!");
+    }
 
-    for (int i = 0; i < numbers.length; i++) {
-        if (!map.containsKey(target - numbers[i])) {
-            map.put(numbers[i], i);
-        } else {
-            return new int[]{i, map.get(target - numbers[i])};
+    // Finding the minimum element using for loop
+    int min=arr[0];
+    for (int i=1;i<arr.length;i++){
+        if(arr[i]<min) {
+            min=arr[i];
         }
     }
+    System.out.println("Finding the minimum element using for loop: "+min);
 
-    return new int[]{};
+    // Finding the minimum element using stream API
+    System.out.println("Finding the minimum element using stream API: "+Arrays.stream(arr).min().getAsInt());
 }
 ```
+**Example Output (for `arr = {1, 3, 6, 8, 2, 4, 7}`):**
+```
+Finding the minimum element using for loop: 1
+Finding the minimum element using stream API: 1
+```
 
-This elegant solution uses a HashMap to achieve O(n) time complexity:
+---
 
-1. For each element, we check if its complement (target - current number) exists in our map
-2. If not, we add the current number and its index to the map
-3. If we find a complement, we've found our pair and return both indices
+### 3. `reverse(int[] arr)` 🔄
+Time to flip things around! This method reverses an array and shows two ways to do it.
 
-**Time Complexity**: O(n) - Single pass through the array with O(1) lookups in HashMap
-**Space Complexity**: O(n) - In worst case, we might store nearly all elements in the HashMap
+* **Input**: An integer array `arr`.
+* **Action**:
+   1.  **In-place reversal**: Reverses the array `arr` directly using a `while` loop and a two-pointer technique (swapping elements from start and end). Prints the reversed array.
+   2.  **`IntStream` reversal**: Creates a *new* array by reversing the *already modified `arr`* from step 1 using `IntStream.rangeClosed().map()`. Prints this second reversed array.
+      * 🎨 **Fun Fact**: If you call this on `[1,2,3]`:
+         * First part changes `arr` to `[3,2,1]` and prints it.
+         * Second part takes `[3,2,1]` and prints `[1,2,3]`. It's like a double reverse!
 
-### Method 2: `twoSumII(int[] arr, int target)`
+```java
+public void reverse(int[] arr){
+    int i=0,j=arr.length-1;
+    while(i<=j){ // In-place reversal
+        int temp=arr[i];
+        arr[i]=arr[j];
+        arr[j]=temp;
+        i++;
+        j--;
+    }
+    System.out.print("Reversing an Array using while loop (in-place): ");
+    Arrays.stream(arr).forEach(e-> System.out.print(e+" "));
+    System.out.println();
 
-An alternative implementation for the Two Sum problem using sorting and a two-pointer technique:
+    // Note: 'arr' is already reversed here. This IntStream reverses it again.
+    int[] reversedAgain = IntStream.rangeClosed(1,arr.length)
+            .map(e ->arr[arr.length- e]).toArray(); // arr.length-e because rangeClosed is 1-based
+    System.out.print("Reversing an Array using IntStream (on already reversed array): ");
+    Arrays.stream(reversedAgain).forEach(e->System.out.print(e+" "));
+    System.out.println();
+}
+```
+**Example Output (for `arr = {1, 3, 6, 8, 2, 4, 7}` initially):**
+```
+Reversing an Array using while loop (in-place): 7 4 2 8 6 3 1
+Reversing an Array using IntStream (on already reversed array): 1 3 6 8 2 4 7
+```
+
+---
+
+### 4. `twoSum(int[] numbers, int target)` (LeetCode Q1) 🎯
+This static method tackles the classic LeetCode problem "Two Sum".
+
+* **Problem**: Given an array of integers `numbers` and an integer `target`, return *indices* of the two numbers such that they add up to `target`.
+* **Approach**: Uses a `HashMap` for an efficient O(n) time complexity solution. It iterates through the array, and for each element, it checks if `target - currentElement` is already in the map.
+   * If yes, it means we found the pair! Returns `[currentIndex, map.get(target - currentElement)]`.
+   * If no, it stores `currentElement` and its index in the map.
+* **Return**: An `int[]` containing the two indices. If no such pair is found, it returns `[0,0]` (as per the current implementation - you might want to change this to `null` or an empty array for clarity).
+
+```java
+public static int[] twoSum(int[] numbers, int target){
+    Map<Integer,Integer> map = new HashMap<>(); // To store <number, index>
+
+    for(int i=0; i < numbers.length; i++){
+        int complement = target - numbers[i];
+        if(map.containsKey(complement)){
+            // Found the pair!
+            return new int[]{i, map.get(complement)}; // Returns current index and stored index
+        }
+        map.put(numbers[i], i); // Store current number and its index
+    }
+    // No solution found
+    return new int[]{0,0}; // Or throw new IllegalArgumentException("No two sum solution");
+}
+```
+**Example Usage:**
+```java
+int[] nums = {2, 7, 11, 15};
+int target = 9;
+int[] result = ArrayUtil.twoSum(nums, target);
+// result would be [1, 0] (indices of 7 and 2) or [0,1] depending on iteration order.
+// The current code returns [currentIndex, map.get(complement)], so if 7 is processed, complement is 2, which is in map.
+System.out.println("Two Sum Indices: " + Arrays.toString(result));
+```
+
+---
+
+### 5. `twoSumII(int[] arr, int target)` (LeetCode Q167 variant) 🪜
+Another static method for a "Two Sum" variation, often seen when the input array is (or can be) sorted.
+
+* **Problem**: Find two numbers in `arr` that sum up to `target`.
+* **Approach**:
+   1.  **Sorts the array `arr` in place** (`Arrays.sort(arr)`). This is crucial if the input isn't guaranteed to be sorted.
+   2.  Uses the **Two-Pointer Technique**:
+      * `left` pointer starts at the beginning of the sorted array.
+      * `right` pointer starts at the end.
+   3.  Calculates `sum = arr[left] + arr[right]`:
+      * If `sum == target`, we found the pair! Returns `[arr[left], arr[right]]` (note: returns the **values**, not indices).
+      * If `sum < target`, we need a larger sum, so `left++`.
+      * If `sum > target`, we need a smaller sum, so `right--`.
+* **Return**: An `int[]` containing the two *values* that sum to target. If no such pair, returns an empty `int[]`.
 
 ```java
 public static int[] twoSumII(int[] arr, int target) {
-    Arrays.sort(arr);
+    // Sorting is key for the two-pointer approach
+    Arrays.sort(arr); // Example: {0, 2, 6, 7, 10, 11} if target is, say, 9
     int left = 0;
     int right = arr.length - 1;
-    int[] result = new int[2];
-    
+
     while (left < right) {
         int sum = arr[left] + arr[right];
         if (sum == target) {
-            result[0] = arr[left];
-            result[1] = arr[right];
-            return result;
+            return new int[]{arr[left], arr[right]}; // Returns the values
         } else if (sum < target) {
-            left++;
+            left++; // Need a bigger sum
         } else {
-            right--;
+            right--; // Need a smaller sum
         }
     }
-    
-    return new int[0];
+    return new int[0]; // No solution found, return empty array
 }
 ```
+**Example Usage:**
+```java
+int[] numbers = {10, 2, 7, 11, 0, 6}; // Unsorted
+int targetSum = 9;
+int[] resultValues = ArrayUtil.twoSumII(numbers, targetSum);
+// After sorting 'numbers': {0, 2, 6, 7, 10, 11}
+// resultValues would be {2, 7}
+System.out.println("Two Sum II Values: " + Arrays.toString(resultValues));
+```
 
-This approach:
-1. First sorts the array (which changes the original order)
-2. Uses two pointers - one at the beginning and one at the end
-3. If the sum is too small, we move the left pointer right to get a larger number
-4. If the sum is too large, we move the right pointer left to get a smaller number
-5. We continue until we find the target sum or the pointers cross
+---
 
-**Note**: Unlike the first method, this one returns the actual values, not their indices, and requires sorting the array first.
+### 6. `sortedSquares(int[] arr)` (LeetCode Q977) 🔢⏹️
+This static method solves "Squares of a Sorted Array" from LeetCode.
 
-**Time Complexity**: O(n log n) due to the sorting step
-**Space Complexity**: O(1) excluding the result array
-
-## 5. Sorted Squares Problem
-
-### Method: `sortedSquares(int[] arr)`
-
-This method takes a sorted array (which may contain negative numbers) and returns an array of the squares of each number, also sorted in ascending order.
+* **Problem**: Given an array `arr` sorted in non-decreasing order (can contain negatives), return an array of the squares of each number, also sorted in non-decreasing order.
+* **Approach**: Efficient Two-Pointer Technique.
+   * Since the input array `arr` is sorted, the numbers with the largest absolute values are at the ends. Their squares will be the largest.
+   * `i` pointer starts at `0` (left end).
+   * `j` pointer starts at `arr.length - 1` (right end).
+   * A `result` array is filled from its end (`k = n-1` down to `0`).
+   * In each step, compare `abs(arr[i])` and `abs(arr[j])`.
+      * If `abs(arr[i]) > abs(arr[j])`, then `arr[i]*arr[i]` is larger. Place it at `result[k]` and `i++`.
+      * Else, `arr[j]*arr[j]` is larger or equal. Place it at `result[k]` and `j--`.
+* **Return**: A new `int[]` containing the sorted squares.
 
 ```java
 public static int[] sortedSquares(int[] arr) {
     int n = arr.length;
-    int i = 0;
-    int j = n - 1;
-    int[] result = new int[n];
+    int i = 0;       // Pointer for the start of arr
+    int j = n - 1;   // Pointer for the end of arr
+    int[] result = new int[n]; // To store sorted squares
 
+    // Fill the result array from the end (largest squares first)
     for (int k = n - 1; k >= 0; k--) {
         if (Math.abs(arr[i]) > Math.abs(arr[j])) {
             result[k] = arr[i] * arr[i];
@@ -220,71 +239,83 @@ public static int[] sortedSquares(int[] arr) {
     return result;
 }
 ```
+**Example Usage:**
+```java
+int[] sortedArr = {-4, -1, 0, 3, 10};
+int[] squaredResult = ArrayUtil.sortedSquares(sortedArr);
+// squaredResult would be {0, 1, 9, 16, 100}
+System.out.println("Sorted Squares: " + Arrays.toString(squaredResult));
+```
 
-This clever solution uses a two-pointer approach:
+---
 
-1. We start with pointers at both ends of the input array
-2. We compare the absolute values at these positions (since squaring makes negative numbers positive)
-3. Whichever value has the larger absolute value will have the larger square
-4. We place this square at the end of our result array and move the corresponding pointer
-5. We continue this process, filling the result array from the end to the beginning
-
-**Time Complexity**: O(n) - We process each element exactly once
-**Space Complexity**: O(n) - We create a new array to store the result
-
-## 6. Demo and Main Method
-
-### Demo Method: `arrayDemo()`
+### 7. `arrayDemo()` 🎬
+This instance method is a quick demonstration of some of the utilities. It:
+1.  Creates a sample array: `{1, 3, 6, 8, 2, 4, 7}`.
+2.  Calls `printArray()` to display it.
+3.  Calls `findMinimum()` to find and show its minimum element.
+4.  Calls `reverse()` to reverse it and show the reversal steps.
 
 ```java
-public void arrayDemo() {
-    int[] arr = {1, 3, 6, 8, 2, 4, 7};
+public void arrayDemo(){
+    int[] arr={1, 3, 6, 8, 2, 4, 7 };
+    System.out.println("🎉--- Original Array Demo ---🎉");
     printArray(arr);
-    findMinimum(arr);
-    reverse(arr);
+    System.out.println("\n\n💎--- Finding Minimum ---💎");
+    findMinimum(arr); // arr is {1, 3, 6, 8, 2, 4, 7}
+    System.out.println("\n\n🔄--- Reversing Array ---🔄");
+    // Note: reverse() modifies 'arr' in its first step.
+    reverse(arr); // arr becomes {7, 4, 2, 8, 6, 3, 1} after the first reversal part
 }
 ```
 
-This method creates a sample array and demonstrates the use of several utilities:
-1. Printing the array using multiple methods
-2. Finding the minimum value
-3. Reversing the array
+---
 
-### Main Method: `main(String[] args)`
+## 🚀 How to Run
 
-```java
-public static void main(String[] args) {
-    ArrayUtil arrayUtil = new ArrayUtil();
-    arrayUtil.arrayDemo();
-}
+1.  **Save**: Save the code as `ArrayUtil.java`.
+2.  **Compile**: Open your terminal or command prompt, navigate to the directory where you saved the file, and compile:
+    ```bash
+    javac ArrayUtil.java
+    ```
+3.  **Run**: Execute the `main` method to see the `arrayDemo()` in action:
+    ```bash
+    java ArrayUtil
+    ```
+    The `main` method currently does this:
+    ```java
+    public static void main(String[] args) {
+        ArrayUtil arrayUtil = new ArrayUtil();
+        arrayUtil.arrayDemo();
+
+        // You can also test static methods directly:
+        System.out.println("\n\n🎯--- Testing twoSum ---🎯");
+        int[] nums = {2, 7, 11, 15};
+        int target = 9;
+        int[] indices = ArrayUtil.twoSum(nums, target);
+        System.out.println("Indices for target " + target + ": " + Arrays.toString(indices)); // Expected: [1,0] or [0,1]
+
+        System.out.println("\n\n🪜--- Testing twoSumII ---🪜");
+        int[] unsortedNums = {10, 2, 7, 11, 0, 6};
+        int target2 = 9;
+        int[] values = ArrayUtil.twoSumII(unsortedNums, target2);
+        System.out.println("Values for target " + target2 + ": " + Arrays.toString(values)); // Expected: [2,7] (after sorting)
+
+        System.out.println("\n\n🔢⏹️--- Testing sortedSquares ---🔢⏹️");
+        int[] mixedSorted = {-7, -3, 2, 3, 11};
+        int[] squares = ArrayUtil.sortedSquares(mixedSorted);
+        System.out.println("Sorted squares: " + Arrays.toString(squares)); // Expected: [4, 9, 9, 49, 121]
+    }
+    ```
+
+---
+
+## 💡 Ideas for Improvement & Fun
+
+* Add more array utility functions (e.g., find maximum, calculate sum/average, check if sorted, remove duplicates).
+* Implement generic versions of these methods to work with other data types.
+* Add more LeetCode array problems! 🤓
+* Write unit tests for each method to ensure they are robust. 🧪
+
+Happy Array Manipulating! 🎉📊✨
 ```
-
-The main method creates an instance of the ArrayUtil class and calls the demo method to showcase the functionality.
-
-## Key Takeaways from ArrayUtil
-
-1. **Multiple Approaches**: The class demonstrates both traditional imperative methods and modern functional programming approaches to solve the same problems.
-
-2. **Error Handling**: The methods include checks for edge cases such as null or empty arrays.
-
-3. **Algorithmic Efficiency**: Many methods use efficient algorithms like the two-pointer technique to optimize time and space complexity.
-
-4. **Common Patterns**: The code showcases common array manipulation patterns:
-    - Iteration through all elements
-    - Finding minimum/maximum values
-    - Reversal operations
-    - Two-pointer techniques (from both ends)
-    - Hash-based lookups for O(1) search
-
-5. **Problem-Solving Strategies**: The class implements solutions to common algorithmic problems that frequently appear in coding interviews.
-
-## How to Use This in Your DSA Journey
-
-The techniques demonstrated in ArrayUtil form the foundation for more advanced array manipulations and algorithmic problems. Understanding these patterns will help you:
-
-1. Recognize when to apply specific techniques to new problems
-2. Choose the most efficient approach based on the constraints
-3. Implement clean, readable, and efficient code
-4. Handle edge cases and write robust solutions
-
-Arrays are fundamental to almost all data structures and algorithms, making the patterns learned here widely applicable in your DSA practice and real-world programming.
