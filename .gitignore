@@ -2,6 +2,15 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+DSA-CHEATSHEET.iml
+.idea
+ARRAY/ARRAY.iml
+GRAPH/GRAPH.iml
+LINKED_LIST/LINKED_LIST.iml
+Sorting/Sorting.iml
+Tree/Tree.iml
+
+
 
 ### Eclipse ###
 .apt_generated
