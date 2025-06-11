@@ -2,6 +2,20 @@ import java.util.Arrays;
 
 public class Insertion_Sort {
 
+    /*
+    PSUEDO-CODE
+
+    Insertion-sort(Arr,n)
+    1   for i = 2 to n :
+    2       key = Arr[j]
+    3       j = i - 1
+    4       while j > 0 and Arr[j] > key :
+    5           Arr[j+1] = Arr[j]
+    6           j = j - 1
+    7
+    8       Arr[j+1] = key
+     */
+
     public static void insertionSort(int[] arr){
         if(arr==null) return;
         int len=arr.length;
